@@ -1,17 +1,13 @@
 class Solution:
     def longestMountain(self, arr: List[int]) -> int:
-        if len(arr)<2:return 0
-        lrm=mnt=0
-        l=r=0
-        lsub,rsub=0,len(arr)-1
-        while l<=r:
-            if arr[l]>=arr[l+1]:
-                lsub-=1
-            else:lsub+=1
-            if arr[r]>=arr[r-1]:
-                rsub-=1
-            else:rsub+=1
-            l+=1
-            r-=1
-        print(rsub,lsub)
-        return (rsub+lsub-1) if (rsub+lsub)>=3 else 0
+
+        incre,decre,ans = 0,0,0
+        for i in range(1, len(arr)):
+            if (decre and arr[i-1] < arr[i]) or arr[i-1] == arr[i]:
+                incre,decre = 0, 0
+            incre += arr[i-1] < arr[i]
+            decre += arr[i-1] > arr[i]
+
+            if incre  and decre:
+                ans = max(ans, incre + decre + 1)
+        return ans 
